@@ -1,5 +1,28 @@
-#!/bin/sh
+#!/bin/bash
 
-pattern="refs/heads/${1:-*}"
+BRANCH_MATCHES=0
 
-exec ref "$pattern"
+export GITHUB_REF='refs/heads/update/deployment'
+
+if [ "$GITHUB_REF" = "" ]; then
+    echo "\$GITHUB_REF is not set"
+    exit 1
+fi
+
+if [ "$#" -eq 0 ]; then
+    echo "No arguments passed"
+    exit 1
+fi
+
+for arg in "$@"; do
+    gh_ref="refs/heads/${arg:-*}"
+    if [ "$GITHUB_REF" = "$gh_ref" ]; then
+        echo "$GITHUB_REF matches $gh_ref"
+        exit 0
+    fi
+done
+
+if [ "$BRANCH_MATCHES" -eq "0" ]; then
+    echo "$GITHUB_REF does not match with any passed arguments"
+    exit 78
+fi
