@@ -2,8 +2,6 @@
 
 BRANCH_MATCHES=0
 
-export GITHUB_REF='refs/heads/update/deployment'
-
 if [ "$GITHUB_REF" = "" ]; then
     echo "\$GITHUB_REF is not set"
     exit 1
