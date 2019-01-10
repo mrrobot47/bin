@@ -1,7 +1,5 @@
 #!/bin/bash
 
-BRANCH_MATCHES=0
-
 if [ "$GITHUB_REF" = "" ]; then
     echo "\$GITHUB_REF is not set"
     exit 1
@@ -20,7 +18,6 @@ for arg in "$@"; do
     fi
 done
 
-if [ "$BRANCH_MATCHES" -eq "0" ]; then
-    echo "$GITHUB_REF does not match with any passed arguments"
-    exit 78
-fi
+# If it reaches here then there have been no matches
+echo "$GITHUB_REF does not match with any passed arguments"
+exit 78
